@@ -1,13 +1,11 @@
 import argparse
-import sys
-import os.path
+import sys, os
 import csv
 import hashlib
 import tarfile
 from pathlib import Path
 import gdown
 import wget
-import sys, os
 from multiprocessing import Pool
 from functools import partial
 
@@ -16,16 +14,11 @@ ID_FILE_PATH = (base_path / "../../data/download/").resolve()
 
 download_from_names = {'gdrive': 'GDrive', 'mtg': 'MTG'}
 
-
 def compute_sha256(filename):
     with open(filename, 'rb') as f:
         contents = f.read()
         checksum = hashlib.sha256(contents).hexdigest()
         return checksum
-    return None
-
-    raise Exception('Error computing a checksum for %s' % filename)
-
 
 def _download(filename,dataset, data_type, download_from, output_dir,
               quiet=False, alternative_basepath = ('/media/giac/Volume','/home/giac/tmp')):
@@ -54,7 +47,6 @@ def _download(filename,dataset, data_type, download_from, output_dir,
         return output
     except:
         return False
-
 
 def download(dataset, data_type, download_from, output_dir,
              parallel=False, quiet=False, alternative_basepath = ('/media/giac/Volume','/home/giac/tmp'), validate=False):
@@ -155,9 +147,7 @@ def unpack_tar(filename, remove_tar, sha256_tracks=None):
     if remove_tar:
         os.remove(filename)
     return valid_tracks
-
 def unpack_tars(filenames,dataset, data_type,remove_tars):
-
     print('Unpacking tar archives')
     file_sha256_tracks = os.path.join(ID_FILE_PATH, dataset + '_' + data_type + '_sha256_tracks.txt')
     with open(file_sha256_tracks) as f:
